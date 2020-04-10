@@ -1,0 +1,100 @@
+HEAD: Header line (1st four letters of storm name, 2-digit year, month, day, and UTC time, maximum winds, lat, lon, minimum sea level pressure, and ATCF ID number (e.g., AL011982) at t=0 of current case.
+TIME: Time relative to current case (hr)
+VMAX: Maximum Surface Wind (kt)
+MSLP: Minimum Sea Level Pressure (hPa)
+TYPE: Storm type (0=wave, remnant low, dissipating low, 1=tropical, 2=subtropical, 3=extra-tropical). Note that the SHIPS variables are set to missing for all cases except type=1 or 2, since these are not included in the SHIPS developmental sample for estimating the model coefficients.
+HIST:  Storm history variable. The no. of 6 hour periods the storm max wind has been above 20, 25, ,…, 120 kt.
+DELV: Intensity change (kt) -12 to 0, -6 to 0, 0 to 0, 0 to 6, ... 0 to 120 hr. If the storm crosses a major land mass during the time interval, value set to 9999
+INCV: Intensity change (kt) -18 to -12, -12 to -6, ... 114 to 120 hr. Set to 9999 similar to DELV for land cases.
+LAT:  Storm latitude (deg N *10) vs time
+LON:  Storm longitude (deg W *10) vs time
+CSST: Climatological SST (deg C * 10) vs time
+CD20: Climatological depth (m) of 20 deg C isotherm from 2005-2010 NCODA analyses
+CD26: Same as CD20 for the 26 deg C isotherm
+COHC: Same as above for ocean heat content (kJ/cm2)
+DTL:  Distance to nearest major land mass (km) vs time
+OAGE: Ocean Age (hr*10), which is the amount of time the area within 100 km of the storm center has been occupied by the storm along its track up to this point in time
+NAGE: Same as OAGE, but normalized by the maximum wind/100kt. If the max wind was a constant 100 kt over its past history, NAGE=OAGE.
+RSST: Reynolds SST (deg C*10) vs time. Number after SST label is the age in days of the SST analysis used to estimate RSST
+DSST: Same as RSST, but from daily Reynolds SST analyses
+DSTA: Same as DSST, but spatially averaged over 5 points (storm center, + 50 km N, E, S and W of center)
+PHCN: Estimated ocean heat content (kJ/cm2) from climo OHC and current SST anomaly.  Designed to fill in for RHCN when that is missing.
+U200: 200 hPa zonal wind (kt *10) vs time (r=200-800 km)
+U20C: Same as U200 but for r=0-500 km)
+V20C: Save as U20C, but for the v component of the wind
+E000:  1000 hPa theta_e (r=200-800 km) vs. time (deg K*10)
+EPOS: The average theta e difference between a parcel lifted from the surface and its environment (200-800 km average) versus time (deg C * 10). Only positive differences are included in the average.  ENEG: Same as EPOS, but only negative differences are included. The minus sign is not included.
+EPSS:   Same as EPOS, but the parcel theta_e is compared with the saturated theta_e of the environment
+ENSS:  Same as ENEG, but the parcel theta_e is compared with the saturated theta_e of the environment
+RHLO: 850-700 hPa relative humidity (%) vs time (200-800 km)
+RHMD: Same as RHLO for 700-500 hPa
+RHHI: Same as RHLO for 500-300 hPa
+PSLV: Pressure of the center of mass (hPa) of the layer where storm motion best matches environmental flow (t=0 only). Also, the information used to calculate the steering layer pressure. All fields are valid at t=0, and those in the t=6 to t=102 columns include the following: t=  6 column: The observed zonal storm motion component (m/s *10) t= 12 column: The observed meridional storm motion component (m/s *10) t=18, t=24 columns: Same as t=6,12 hr columns but for the 1000 to 100 hPa mass weighted deep layer environmental wind (m/s *10) t=30, t=36 columns: Same as t=6,12 columns but for the optimally weighted deep layer mean flow (m/s *10) t=42 column: The parameter alpha that controls the constraint on the weights from being not too “far” from the deep layer mean weights (non-dimensional, *100) t=48 to t=102 columns: The optimal vertical weights for p=100, 150, 200, 250, 300, 400, 500, 700, 850 and 1000 hPa. (non-dimensional *1000)
+Z850: 850 hPa vorticity (sec-1 * 10**7) vs time (r=0-1000 km)
+D200: Same as above for 200 hPa divergence
+REFC: Relative eddy momentum flux convergence (m/sec/day, 100-600 km avg) vs time
+PEFC: Planetary eddy momentum flux convergence (m/sec/day, 100-600 km avg) vs time
+T000:   1000 hPa temperature (dec C* 10) (200-800 km average)
+R000:   1000 hPa relative humidity (200-800 km average)
+Z000:   1000 hPa height deviation (m) from the U.S. standard atmosphere
+TLAT: Latitude of 850 hPa vortex center in NCEP analysis (deg N*10)
+TLON: Longitude of 850 hPa vortex center in NCEP analysis (deg W*10)
+TWAC: 0-600 km average symmetric tangential wind at 850 hPa from NCEP analysis (m/sec *10)
+TWXC: Maximum 850 hPa symmetric tangential wind at 850 hPa from NCEP analysis (m/sec *10)
+G150:    Temperature perturbation at 150 hPa due to the symmetric vortex calculated from the gradient thermal wind. Averaged from r=200 to 800 km centered on input lat/lon (not always the model/analysis vortex position). (deg C*10)
+G200:    Same as G150 at 200 hPa
+G250:    Same as G150 at 250 hPa
+V000:    The tangential wind (m/sec *10) azimuthally averaged at r=500 km from (TLAT,TLON) If TLAT,TLON are not available, (LAT,LON) are used.
+V850:   Same as V000 at 850 hPa
+V500:  Same as V000 at 500 hPa
+V300:  Same as V000 at 300 hPa
+TGRD:  The magnitude of the temperature gradient between 850 and 700 hPa averaged from 0 to 500 km estimated from the geostrophic thermal wind (deg C per m*107)
+TADV:  The temperature advection between 850 and 700 hPa averaged from 0 to 500 km From the geostrophic thermal wind (deg per sec*106)
+PENC: Azimuthally averaged surface pressure at outer edge of vortex ( (hPa-1000)*10)
+SHDC: Same as SHRD but with vortex removed and averaged from 0-500 km relative to 850 hPa vortex center
+SDDC: Heading (deg) of above shear vector. Westerly shear has a value of 90 deg.
+SHGC: Same as SHRG but with vortex removed and averaged from 0-500 km relative to 850 hPa vortex center
+DIVC: Same as D200, but centered at 850 hPa vortex location
+T150: 200 to 800 km area average 150 hPa temperature (deg C *10) versus time
+T200: Same as above for 200 hPa temperature (deg C *10)
+T250: Same as above for 250 hPa temperature (deg C *10)
+SHRD: 850-200 hPa shear magnitude (kt *10) vs time (200-800 km)
+SHTD: Heading (deg) of above shear vector. Westerly shear has a value of 90 deg.
+SHRS: 850-500 hPa shear magnitude (kt *10) vs time
+SHTS: Heading of above shear vector
+SHRG: Generalized 850-200 hPa shear magnitude (kt *10) vs time (takes
+into account all levels from 1000 to 100 hPa
+PENV:  200 to 800 km average surface pressure ((hPa-1000)*10)
+VMPI:  Maximum potential intensity from Kerry Emanuel equation (kt)
+VVAV: Average (0 to 15 km) vertical velocity (m/s * 100) of a parcel lifted from the surface where entrainment, the ice phase and the condensate weight are accounted for.  Note: Moisture and temperature biases between the operational and reanalysis files make this variable inconsistent in the 2001-2007 sample, compared 2000 and before.
+VMFX:  Same as VVAV, but a density weighted vertical average.
+VVAC: Same as VVAV but with soundings from 0-500 km with GFS vortex removed
+HE07:  Storm motion relative helicity (m^2/s^2)*10 for p=1000 to 700 hPa, r=200 to 800 km
+HE05:   Same as HE05, for P=1000 to 500 hPa
+O500:   Pressure vertical velocity (hPa/day) at 500 hPa, averaged from r=0 to 1000 km
+O700:   Same as O500 at 700 hPa
+CFLX: Dry air predictor based on the difference in surface moisture flux between air with the observed (GFS) RH value, and with RH of air mixed from 500 hPa to the surface.
+MTPW: Total Precipitable Water (TPW) predictors at t=0 from the GFS analysis. The 21 values in this record are as follows: 1) 0-200 km average TPW (mm * 10) 2) 0-200 km TPW standard deviation (mm * 10) 3) 200-400 km average TPW (mm * 10) 4) 200-400 km TPW standard deviation (mm * 10) 5) 400-600 km average TPW (mm * 10) 6) 400-600 km TPW standard deviation (mm * 10) 7) 600-800 km average TPW (mm * 10) 8) 600-800 km TPW standard deviation (mm * 10) 9) 800-1000 km average TPW (mm * 10) 10) 800-1000 km TPW standard deviation (mm * 10) 11) 0-400 km average TPW (mm * 10) 12) 0-400 km TPW standard deviation (mm * 10) 13) 0-600 km average TPW (mm * 10) 14) 0-600 km TPW standard deviation (mm * 10) 15) 0-800 km average TPW (mm * 10) 16) 0-800 km TPW standard deviation (mm * 10) 17) 0-1000 km average TPW (mm * 10) 18) 0-1000 km TPW standard deviation (mm * 10) 19) %TPW less than 45 mm, r=0 to 500 km in 90 deg azimuthal quadrant centered on up-shear direction 20) 0-500 km averaged TPW (mm * 10) in 90 deg up-shear quadrant 21) 0-500 km average TPW (mm * 10)
+PW01-PW19: Time dependent versions of the 21 TPW variables listed above.
+IRXX: Same as IR00 below, but generated from other predictors (not satellite data). These should only be used to fill in for missing IR00 if needed.
+IR00: Predictors from GOES data (not time dependent). The 20 values in this record are as follows: 1) Time (hhmm) of the GOES image, relative to this case 2) Average GOES ch 4 brightness temp (deg C *10), r=0-200 km 3) Stan. Dev. of GOES BT (deg C*10), r=0-200 km 4) Same as 2) for r=100-300 km 5) Same as 3) for r=100-300 km 6) Percent area r=50-200 km of GOES ch 4 BT < -10 C 7) Same as 6 for BT < -20 C 8) Same as 6 for BT < -30 C 9) Same as 6 for BT < -40 C 10) Same as 6 for BT < -50 C 11) Same as 6 for BT < -60 C 12) max BT from 0 to 30 km radius (deg C*10) 13) avg BT from 0 to 30 km radius (deg C*10) 14) radius of max BT (km) 15) min BT from 20 to 120 km radius (deg C*10) 16) avg BT from 20 to 120 km radius (deg C*10) 17)  radius of min BT (km) 18-20) Variables need for storm size estimation
+IRM1:  Same as IR00 but at 1.5 hours before initial time
+IRM3: Same as IR00 but at three hours before initial time
+PC00:   Principal components and related variables from IR imagery at t=0
+PCM1:  Same as PC00 but for 1.5 hours before initial time
+PCM3: Same as PC00 but for three hours before initial time
+RD20: Ocean depth of the 20 deg C isotherm (m), from satellite altimetry data
+RD26: Ocean depth of the 26 deg C isotherm (m) from satellite altimetry data
+RHCN: Ocean heat content (KJ/cm2) from satellite altimetry data. The number after the label is the age in days of the OHC analysis used to estimate RD20, RD26 and RHCN.
+NSST: SST from the NCODA analysis (deg C*10)
+NTMX: Max ocean temperature in the NCODA vertical profile (deg C*10)
+NDMX: Depth of the max ocean temperature in the profile (m)
+NDML:  Depth of the mixed layer, defied and the depth where the T is 0.5 colder than at the surface (m). In rare cases, this is the depth where the T is 0.5 warmer than at the surface. In those cases, NDML is negative.
+ND30-ND16: Depth of the 30, 28, …, 16 deg C isotherms (m)
+NDFR: Depth of the lowest model level in the NCODA analysis (m).
+NTFR: Ocean T at the lowest level in the NCODA analysis (deg C*10)
+NOHC: Ocean heat content from the NCODA analysis (J/kg-deg C) relative to the 26 C isotherm
+NO20: Same as NOHC with respect to the 20 deg C isotherm
+XNST-XO20: Climatological values of the NCODA variables above (NSST through NO20).
+XDST: Climatological value of the daily Reynolds SST (deg C*10)
+LAST: The last line for this case

@@ -1,0 +1,9 @@
+__pycache__
+build
+.session.vim
+*.csv
+*.db
+*.json
+*.log
+ships/data/*
+!ships/data/ships_predictor_file*.txt
