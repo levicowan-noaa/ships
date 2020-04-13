@@ -6,20 +6,20 @@ TYPE: Storm type (0=wave, remnant low, dissipating low, 1=tropical, 2=subtropica
 HIST:  Storm history variable. The no. of 6 hour periods the storm max wind has been above 20, 25, ,…, 120 kt.
 DELV: Intensity change (kt) -12 to 0, -6 to 0, 0 to 0, 0 to 6, ... 0 to 120 hr. If the storm crosses a major land mass during the time interval, value set to 9999
 INCV: Intensity change (kt) -18 to -12, -12 to -6, ... 114 to 120 hr. Set to 9999 similar to DELV for land cases.
-LAT:  Storm latitude (deg N *10) vs time
-LON:  Storm longitude (deg W *10) vs time
-CSST: Climatological SST (deg C * 10) vs time
+LAT:  Storm latitude (deg N) vs time
+LON:  Storm longitude (deg W) vs time
+CSST: Climatological SST (deg C) vs time
 CD20: Climatological depth (m) of 20 deg C isotherm from 2005-2010 NCODA analyses
 CD26: Same as CD20 for the 26 deg C isotherm
 COHC: Same as above for ocean heat content (kJ/cm2)
 DTL:  Distance to nearest major land mass (km) vs time
 OAGE: Ocean Age (hr*10), which is the amount of time the area within 100 km of the storm center has been occupied by the storm along its track up to this point in time
 NAGE: Same as OAGE, but normalized by the maximum wind/100kt. If the max wind was a constant 100 kt over its past history, NAGE=OAGE.
-RSST: Reynolds SST (deg C*10) vs time. Number after SST label is the age in days of the SST analysis used to estimate RSST
+RSST: Reynolds SST (deg C) vs time. Number after SST label is the age in days of the SST analysis used to estimate RSST
 DSST: Same as RSST, but from daily Reynolds SST analyses
 DSTA: Same as DSST, but spatially averaged over 5 points (storm center, + 50 km N, E, S and W of center)
 PHCN: Estimated ocean heat content (kJ/cm2) from climo OHC and current SST anomaly.  Designed to fill in for RHCN when that is missing.
-U200: 200 hPa zonal wind (kt *10) vs time (r=200-800 km)
+U200: 200 hPa zonal wind (kt) vs time (r=200-800 km)
 U20C: Same as U200 but for r=0-500 km)
 V20C: Save as U20C, but for the v component of the wind
 E000:  1000 hPa theta_e (r=200-800 km) vs. time (deg K*10)
@@ -55,12 +55,12 @@ SHDC: Same as SHRD but with vortex removed and averaged from 0-500 km relative t
 SDDC: Heading (deg) of above shear vector. Westerly shear has a value of 90 deg.
 SHGC: Same as SHRG but with vortex removed and averaged from 0-500 km relative to 850 hPa vortex center
 DIVC: Same as D200, but centered at 850 hPa vortex location
-T150: 200 to 800 km area average 150 hPa temperature (deg C *10) versus time
-T200: Same as above for 200 hPa temperature (deg C *10)
-T250: Same as above for 250 hPa temperature (deg C *10)
-SHRD: 850-200 hPa shear magnitude (kt *10) vs time (200-800 km)
+T150: 200 to 800 km area average 150 hPa temperature (deg C) versus time
+T200: Same as above for 200 hPa temperature (deg C)
+T250: Same as above for 250 hPa temperature (deg C)
+SHRD: 850-200 hPa shear magnitude (kt) vs time (200-800 km)
 SHTD: Heading (deg) of above shear vector. Westerly shear has a value of 90 deg.
-SHRS: 850-500 hPa shear magnitude (kt *10) vs time
+SHRS: 850-500 hPa shear magnitude (kt) vs time
 SHTS: Heading of above shear vector
 SHRG: Generalized 850-200 hPa shear magnitude (kt *10) vs time (takes
 into account all levels from 1000 to 100 hPa
@@ -86,7 +86,7 @@ PCM3: Same as PC00 but for three hours before initial time
 RD20: Ocean depth of the 20 deg C isotherm (m), from satellite altimetry data
 RD26: Ocean depth of the 26 deg C isotherm (m) from satellite altimetry data
 RHCN: Ocean heat content (KJ/cm2) from satellite altimetry data. The number after the label is the age in days of the OHC analysis used to estimate RD20, RD26 and RHCN.
-NSST: SST from the NCODA analysis (deg C*10)
+NSST: SST from the NCODA analysis (deg C)
 NTMX: Max ocean temperature in the NCODA vertical profile (deg C*10)
 NDMX: Depth of the max ocean temperature in the profile (m)
 NDML:  Depth of the mixed layer, defied and the depth where the T is 0.5 colder than at the surface (m). In rare cases, this is the depth where the T is 0.5 warmer than at the surface. In those cases, NDML is negative.
@@ -96,5 +96,5 @@ NTFR: Ocean T at the lowest level in the NCODA analysis (deg C*10)
 NOHC: Ocean heat content from the NCODA analysis (J/kg-deg C) relative to the 26 C isotherm
 NO20: Same as NOHC with respect to the 20 deg C isotherm
 XNST-XO20: Climatological values of the NCODA variables above (NSST through NO20).
-XDST: Climatological value of the daily Reynolds SST (deg C*10)
+XDST: Climatological value of the daily Reynolds SST (deg C)
 LAST: The last line for this case

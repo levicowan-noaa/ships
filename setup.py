@@ -30,11 +30,11 @@ class Install(install):
 
 
 setup(
-    name='ibtracs',
+    name='ships',
     version='1.0',
     author='Levi Cowan',
     license='MIT',
-    packages=['ibtracs'],
+    packages=['ships'],
     scripts=['initial_setup.py'],
     cmdclass={'install': Install}
 )

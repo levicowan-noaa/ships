@@ -1,138 +1,87 @@
-# Python IBTrACS API
+# Python SHIPS API
 
-A Python interface to the IBTrACS tropical cyclone best track dataset. Only 6-hourly synoptic times are included. The WMO-sanctioned agency is used for each basin. Note that for the Atlantic and eastern Pacific, this data is the same as HURDAT.
+A Python interface to the SHIPS tropical cyclone diagnostic dataset from CIRA (<http://rammb.cira.colostate.edu/research/tropical_cyclones/ships/developmental_data.asp>). Analysis values at t=0 for all time-dependent parameters are included. Currently, array-like parameters defined at a single time, such as precipitable water radial distribution and satellite parameters, are not included. Additionally, since storms are only identifiable by their ATCF ID in the raw data, only storms from the AL, EP, and CP basins are included.
 
 ## Dependencies
-- Numpy >= 1.7
+- Numpy
 - Python >= 3.6
 
 ## Installation
 
 Ensure your desired Python environment is activated, then:
 ```
-git clone https://www.github.com/levicowan/ibtracs /tmp/ibtracs
-cd /tmp/ibtracs
+git clone https://www.github.com/levicowan/ships /tmp/ships
+cd /tmp/ships
 python setup.py install
 ```
 
-This will download the IBTrACS v4r00 CSV file from NCEI (URL will need updating when new dataset versions get released). The file will then get parsed, and an SQLite database will be created. This database is ~44MB in size, compared to the ~297MB CSV file, and much faster to read/parse.
+This will download the raw SHIPS text file from CIRA for each basin. The file will then get parsed, and an SQLite database will be created in which each row stores the diagnostics from a single storm observation time.
 
 ## Usage in a Python script or interactive interpreter
 
 ```
-from ibtracs import Ibtracs
-I = Ibtracs()
+from ships import Ships
+S = Ships()
 ```
 
-### Load a single TC from the SQL database into a Storm object
+### Obtain all diagnostic parameters for a single storm
+These are organized as a dictionary, mapping parameter names to time-ordered sequences of values.
 ```
-tc = I.get_storm(name='katrina', season=2005, basin='NA')
-```
-
-### View some data from the TC:
-```
-for t, vmax in zip(tc.times, tc.wind):
-    print(t, vmax)
-> 2011-08-21T00:00 45.0
-> 2011-08-21T06:00 45.0
-> 2011-08-21T12:00 45.0
-> 2011-08-21T18:00 50.0
-> 2011-08-22T00:00 60.0
-> 2011-08-22T06:00 65.0
-> ...
+data = S.get_storm_obs('AL052019') # Hurricane Dorian
+print(data['TIME'])
+> array(['2019-08-24T06:00', '2019-08-24T12:00', '2019-08-24T18:00', ...])
+print(data['VMAX'])
+> [25., 30., 35., ...]
+print(data['SHRD'])
+> [13.5, 12.0, 8.1, ...]
 ```
 
-### See all attributes and data variables available from the Storm object (using tc.{varname})
-```
-print(vars(tc).keys())
-> dict_keys(['ID', 'ATCF_ID', 'name', 'season', 'basin', 'subbasin', 'genesis', 'lats', 'lons', 'times', 'wind', 'mslp', 'classifications', 'speed', 'basins', 'subbasins', 'agencies', 'R34_NE', 'R34_SE', 'R34_SW', 'R34_NW', 'R50_NE', 'R50_SE', 'R50_SW', 'R50_NW', 'R64_NE', 'R64_SE', 'R64_SW', 'R64_NW'])
-```
-
-### View units and description of TC attributes
-```
-print(tc.metadata)
-> {'lats': {'units': 'degrees', 'description': 'TC latitude'},
->  'classifications': {'units': None, 'description': 'storm classification (see Ibtracs.possible_classifications)'},
-> ...
-```
-
-### Select storm data from a particular time
-```
+### Obtain diagnostic parameters for a specific time
 from datetime import datetime
-t = datetime(2005, 8, 29, 12)
-print(tc.data_at_time(t))
-> {'lats': 29.5, 'lons': 270.4, 'wind': 110.0, 'mslp': 923.0, 'times': numpy.datetime64('2005-08-29T12:00'), ...}
+data = S.get_storm_obs('AL052019', time=datetime(2019, 9, 5, 12))
+print(data['VMAX'], data['SHRD'])
+> 100.0 19.7
 ```
 
-### Load TCs in bulk for filtering, etc. (populates I.storms with all Storm objects)
+### Or use the SQLite database directly! Each track point is a row in the "diagnostics" table
 ```
-I.load_all_storms()
-```
-
-### Select all North Atlantic TCs from the 2005 season passing through the box 20-30N, 80-100W
-```
-TCs = [tc for tc in I.storms if tc.basin == 'NA' and tc.season == 2005
-       and tc.intersect_box((20, 30, 260, 280))]
-```
-
-### Sort by genesis time and print some info
-```
-TCs.sort(key=lambda tc: tc.genesis)
-for tc in TCs:
-    ace = tc.ACE(subtropical=True)
-    print(f'{tc.name}, genesis={tc.genesis}, ACE={ace:.1f}')
-> ARLENE, genesis=2005-06-08 18:00:00, ACE=2.6
-> BRET, genesis=2005-06-28 18:00:00, ACE=0.4
-> CINDY, genesis=2005-07-03 18:00:00, ACE=1.5
-> DENNIS, genesis=2005-07-04 18:00:00, ACE=18.8
-> EMILY, genesis=2005-07-11 00:00:00, ACE=32.9
-> ...
-```
-
-### Or use the SQLite database directly! Each track point is a row in the "storm" table
-```
-query = 'SELECT DISTINCT name,genesis FROM storms WHERE season=2005 AND basin="NA" AND lat>20 AND lat<30 AND lon>260 AND lon<280 ORDER BY genesis'
-for row in I.db.execute(query):
+query = 'SELECT TIME,SHRD FROM diagnostics WHERE ATCF_ID="AL052019" ORDER BY TIME'
+for row in S.db.execute(query):
     print(row)
-> ('ARLENE', '2005-06-08 18:00:00')
-> ('BRET', '2005-06-28 18:00:00')
-> ('CINDY', '2005-07-03 18:00:00')
-> ('DENNIS', '2005-07-04 18:00:00')
-> ('EMILY', '2005-07-11 00:00:00')
+> ('2019-08-24 06:00:00', 135),
+> ('2019-08-24 12:00:00', 120),
+> ('2019-08-24 18:00:00', 81),
 > ...
 ```
+Note that units are different when using the database directly, since it stores the raw scaled values from CIRA, and no unit conversions have been made. See below for more information about units.
 
-### The IBTrACS database can also be written out into JSON files, stored in {I.datadir}/json.
-These can be easily read by javascript in web applications, and provide a readable serialization format for the TC objects.
+### Parameter descriptions and units:
 ```
-I.save_to_json()
+S.load_documentation()
 ```
+This prints the parameter descriptions from the CIRA documentation. A specific parameter may be queried like this: `print(S.parameter_descriptions['SHRD']`. Many parameters were scaled by CIRA to be stored as integers and thus may have non-standard units.
 
-### TCs can also be read in from the JSON files if they've been generated
-```
-I.load_all_storms(source='json')
-```
+For data returned by functions like S.get_storm_obs(), an effort was made to convert commonly-used parameters such as shear and SST to their standard units, and these modifications are reflected in the documentation. The full, original documentation with original units can be found [here](http://rammb.cira.colostate.edu/research/tropical_cyclones/ships/docs/ships_predictor_file_2020.doc).
 
-### If you need to remake the SQL database or re-parse the CSV file for any reason
+### If you need to remake the SQL database or re-parse the raw text file for any reason
 ```
-I.load_all_storms(source='csv')
-I.save_to_db()
+S.parse_and_save_to_db()
 ```
 
 ### If you ever want to read/modify/replace the data files directly
 ```
-print(I.datadir)
+print(S.datadir)
 # Will be something similar to this
-> ${workdir}/anaconda3/envs/${envname}/lib/python3.7/site-packages/ibtracs/data
+> ${workdir}/anaconda3/envs/${envname}/lib/python3.7/site-packages/ships/data
 ```
 
-### View all attributes and methods available on the Ibtracs object (I)
+### View all attributes and methods available on the Ships object (S)
 ```
-print([a for a in dir(I) if not a.startswith('_')])
-> ['datadir', 'db', 'db_filename', 'get_storm', 'load_all_storms', 'load_from_csv', 'load_from_db', 'load_from_json', 'possible_agencies', 'possible_basins', 'possible_classifications', 'possible_subbasins', 'resolve_duplicates', 'save_to_db', 'save_to_json', 'seasonACE', 'storms', 'tablename']
+print([a for a in dir(S) if not a.startswith('_')])
+> ['MISSING', 'datadir', 'db', 'db_filename', 'doc_filename', 'get_diag_names', 'get_storm_obs', 'load_documentation', 'logfile', 'parameter_descriptions', 'parse_and_save_to_db', 'rawtext_filename', 'tablename']
 ```
 
 ### Get log file path
 ```
-print(I.logfile)
+print(S.logfile)
 ```
