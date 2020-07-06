@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 from distutils.command.install import install
 from subprocess import Popen, PIPE, STDOUT
 import os, sys
@@ -28,13 +28,15 @@ class Install(install):
                 line = bytearray()
         p.wait()
 
-
 setup(
     name='ships',
     version='1.0',
     author='Levi Cowan',
     license='MIT',
-    packages=['ships'],
+    packages=find_packages(),
+    package_data={
+        'ships': ['data/ships_predictor_file*.txt']
+    },
     scripts=['initial_setup.py'],
     cmdclass={'install': Install}
 )
