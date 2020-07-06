@@ -10,7 +10,7 @@ thisdir = os.path.dirname(os.path.realpath(__file__))
 if thisdir in sys.path:
     sys.path.remove(thisdir)
 from ships import Ships
-from shutils import copy2
+from shutil import copy2
 from urllib.request import urlopen
 
 
