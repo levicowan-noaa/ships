@@ -193,6 +193,7 @@ class Ships:
             'NSST': 0.1, 'XDST': 0.1, 'U200': 0.1, 'T150': 0.1, 'T200': 0.1, 'T250': 0.1,
             'SHRD': 0.1, 'SHRS': 0.1,
         }
-        for param, fac in conversion_factors.items():
-            data[param] *= fac
+        for param in data:
+            if param in conversion_factors:
+                data[param] *= conversion_factors[param]
         return data
