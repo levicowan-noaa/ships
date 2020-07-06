@@ -10,6 +10,7 @@ thisdir = os.path.dirname(os.path.realpath(__file__))
 if thisdir in sys.path:
     sys.path.remove(thisdir)
 from ships import Ships
+from shutils import copy2
 from urllib.request import urlopen
 
 
@@ -21,9 +22,9 @@ urls = {
     'North Atlantic': baseurl+'/AL/lsdiaga_1982_2019_sat_ts.dat',
     'East Pacific': baseurl+'/EP/lsdiage_1982_2019_sat_ts.dat',
     'Central Pacific': baseurl+'/CP/lsdiagc_1982_2019_sat_ts.dat',
-    #  'Western Pacific': baseurl+'/WP/lsdiagw_1990_2017.dat',
-    #  'North Indian': baseurl+'/IO/lsdiagi_1990_2017.dat',
-    #  'Southern Hemisphere': baseurl+'/SH/lsdiags_1998_2017.dat',
+    'Western Pacific': baseurl+'/WP/lsdiagw_1990_2017.dat',
+    'North Indian': baseurl+'/IO/lsdiagi_1990_2017.dat',
+    'Southern Hemisphere': baseurl+'/SH/lsdiags_1998_2017.dat',
 }
 filename = os.path.join(S.datadir, 'ships.txt')
 def progressbar(progress):
@@ -52,3 +53,6 @@ if not os.path.exists(filename):
 
 # Create database
 S.parse_and_save_to_db()
+
+# Install predictor description file
+copy2('ships/data/ships_predictor_file_2020.txt', S.datadir)
